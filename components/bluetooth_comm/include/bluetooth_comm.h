@@ -1,15 +1,14 @@
 #pragma once
 
 #include <string>
-#include <vector>
-#include "esp_bt.h"
-#include "esp_gap_ble_api.h"
-#include "esp_gatts_api.h"
-#include "esp_bt_defs.h"
-#include "esp_gatt_common_api.h"
+#include "esp_err.h"
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/queue.h"
+
+// Forward declarations to avoid including complex Bluetooth headers
+struct esp_bd_addr_t;
+typedef uint16_t esp_gatt_if_t;
 
 class BluetoothComm {
 public:
@@ -36,26 +35,8 @@ public:
     
     // Set device name
     void set_device_name(const std::string& name);
-    
-    // Get connection status
-    esp_gatt_conn_desc_t* get_connection_info();
 
 private:
-    // GAP event handler
-    static void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *param);
-    
-    // GATTS event handler
-    static void gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param);
-    
-    // GATTS profile event handler
-    static void gatts_profile_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param);
-    
-    // Initialize GATT service
-    esp_err_t init_gatt_service();
-    
-    // Update characteristic value
-    esp_err_t update_characteristic_value(uint16_t char_handle, const uint8_t* data, size_t len);
-    
     // Device name
     std::string device_name;
     
@@ -74,10 +55,6 @@ private:
     
     // Log tag
     static const char* TAG;
-    
-    // Service and characteristic UUIDs
-    static const uint16_t SERVICE_UUID;
-    static const uint16_t CHAR_UUID;
     
     // Maximum packet size for BLE
     static const size_t MAX_PACKET_SIZE = 20; // BLE MTU limit
