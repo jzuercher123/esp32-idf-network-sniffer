@@ -7,7 +7,6 @@
 #include "freertos/queue.h"
 
 // Forward declarations to avoid including complex Bluetooth headers
-struct esp_bd_addr_t;
 typedef uint16_t esp_gatt_if_t;
 
 class BluetoothComm {
@@ -43,7 +42,7 @@ private:
     // Connection state
     bool connected;
     uint16_t conn_id;
-    esp_bd_addr_t remote_addr;
+    uint8_t remote_addr[6]; // Bluetooth address as simple array
     
     // GATT service and characteristic handles
     uint16_t service_handle;
