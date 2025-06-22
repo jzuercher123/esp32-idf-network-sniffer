@@ -102,7 +102,7 @@ void stats_task(void* parameter) {
     }
 }
 
-void app_main(void)
+extern "C" void app_main(void)
 {
     ESP_LOGI(TAG, "ESP32 Network Sniffer with Bluetooth Starting...");
     
